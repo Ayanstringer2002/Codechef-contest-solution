@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+const int INF = 1e9;
+
+bool isHappyRoom(int success, int k, vector<int>& cgpa, vector<vector<int>>& friends);
+void dfs(int u, int success, vector<int>& cgpa, vector<vector<int>>& friends, vector<bool>& visited, vector<int>& connected_students);
+
+int main() {
+    int T;
+    cin >> T;
+
+    while (T--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+
+        vector<int> cgpa(n);
+        for (int i = 0; i < n; ++i) {
+            cin >> cgpa[i];
+        }
+
+        vector<vector<int>> friends(n);
+        for (int i = 0; i < m; ++i) {
+            int u, v;
+            cin >> u >> v;
+            u--;
+            v--;
+            friends[u].push_back(v);
+            friends[v].push_back(u);
+        }
+
+        int left = 1;
+        int right = *max_element(cgpa.begin(), cgpa.end());
+        int max_success = -1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (isHappyRoom(mid, k, cgpa, friends)) {
+                max_success = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        cout << max_success << endl;
+    }
+
+    return 0;
+}
+
+bool isHappyRoom(int success, int k, vector<int>& cgpa, vector<vector<int>>& friends) {
+    int n = cgpa.size();
+    vector<bool> visited(n, false);
+
+    for (int i = 0; i < n; ++i) {
+        if (!visited[i] && cgpa[i] >= success) {
+            vector<int> connected_students;
+            dfs(i, success, cgpa, friends, visited, connected_students);
+
+            if (connected_students.size() >= k) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void dfs(int u, int success, vector<int>& cgpa, vector<vector<int>>& friends, vector<bool>& visited, vector<int>& connected_students) {
+    visited[u] = true;
+    connected_students.push_back(u);
+
+    for (int v : friends[u]) {
+        if (!visited[v] && cgpa[v] >= success) {
+            dfs(v, success, cgpa, friends, visited, connected_students);
+        }
+    }
+}
