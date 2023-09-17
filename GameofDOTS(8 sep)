@@ -1,0 +1,111 @@
+n , m , e = map ( int , input () . split () )
+
+Visited = [ [ 0 for j in range ( m - 1 ) ] for i in range ( n - 1 ) ]
+
+Edges = [ [ 0 for j in range ( m - 1 ) ] for i in range ( n - 1 ) ]
+
+for _ in range ( e ) :
+	
+	x1,y1,x2,y2 = map ( int , input () . split () )
+	
+	x1 -= 1
+	x2 -= 1
+	y1 -= 1
+	y2 -= 1
+	
+	
+	if x1==x2 :
+	
+		yy = min (y1,y2)
+		
+		if x1 == 0 :
+			Edges[0][yy] |= 2
+		
+		elif x1 == n - 1 :
+			Edges[-1][yy] |= 8
+		
+		else :
+			Edges[x1-1][yy] |= 8
+			Edges[x1][yy]   |= 2
+	
+	
+	elif y1 == y2 :
+	
+		xx = min(x1,x2)
+		
+		if y1 == 0 :
+			Edges[xx][0] |= 4
+		
+		elif y1 == m - 1 :
+			Edges[xx][-1] |= 1
+		
+		else :
+			Edges[xx][y1-1]   |= 1
+			Edges[xx][y1]     |= 4
+
+
+
+A = []
+
+for i in range ( n - 1 ) :
+	for j in range ( m - 1 ) :	
+
+		if Visited[i][j] : continue
+		Visited[i][j] = 1
+		
+		a,b = i,j
+		
+		cur = [ (a,b) ]
+	
+		val = 1
+		
+		while cur :
+			curr=  []
+			for cu in cur :
+				
+				a,b = cu
+				
+				for ii in range ( 4 ) :
+					
+					V = [0,0]
+					
+					if (ii&1) : V[0] += 1
+					else : V[1] += 1
+					
+					if ii <3 and ii > 0 : 
+						V[0] *= -1
+						V[1] *= -1
+					
+					
+					aa , bb = a + V[0] , b + V[1]
+					
+					if aa < 0 or aa > n - 2 or bb < 0 or bb > m - 2 or ( Edges[a][b] & ( 2**ii ) ) :
+						continue
+					
+					if Visited[aa][bb] : continue
+					
+					Visited[aa][bb] = 1
+					curr += [(aa,bb)]
+					val += 1
+					
+			cur = curr
+		
+		
+		A += [val]
+
+
+
+S = [0,0]
+for i in range ( len(A) ) :
+	S[i%2] += A[i]
+	
+if n == 1 or m == 1 or S[0] == S[1] :
+	print("Draw")
+	exit()
+
+start = len(A) + e
+start %= 2
+if start == 0 : 
+	print("Alice")
+else :
+	print("Bob")
