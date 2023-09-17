@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+void s()
+{
+    int totalElement;
+    cin >> totalElement;
+    vector<int> item(totalElement);
+    for (auto &&i : item)
+        cin >> i;
+    vector<int> item2(totalElement);
+    for (auto &&i : item2)
+        cin >> i;
+    vector<int> leftToRight(totalElement, 1);
+    int cd = item[0];
+    for (int i = 0; i < totalElement; i++){
+        cd = __gcd(cd, item[i]);
+        leftToRight[i] = cd; 
+    }
+    vector<int> rightToLeft(totalElement, 1);
+    cd = item[totalElement - 1];
+    for (int i = totalElement - 1; i >= 0; i--)
+    {
+        cd = __gcd(cd, item[i]);
+        rightToLeft[i] = cd; 
+    }
+
+    int ans = leftToRight[totalElement - 1];
+
+    for (int i = 0; i < totalElement; i++)
+    {
+        int lg = 0;
+        if (i > 0)
+            lg = leftToRight[i - 1];
+
+        int rg = 0;
+        if (i < totalElement - 1)
+            rg = rightToLeft[i + 1];
+
+        int gc = __gcd(lg, rg);
+        ans = max(ans, __gcd(gc, item2[i]));
+    }
+
+    cout << ans << endl;
+}
+
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        s();
+    }
+    return 0;
+}
