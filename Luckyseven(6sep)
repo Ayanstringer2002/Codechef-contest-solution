@@ -1,0 +1,13 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+	// your code goes here
+	string a;
+	cin>>a;
+    char luckyLetter = a[6]; 
+
+    cout << luckyLetter << endl;
+	return 0;
+}
