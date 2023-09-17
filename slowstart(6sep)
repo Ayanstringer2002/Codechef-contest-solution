@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+void s()
+{
+    int x,h;
+    cin>>x>>h;
+    int y=x/2;
+    int j=0;
+    for (int i =1;i<6;i++)
+    {
+        h-=y;
+        if(h<=0)
+        {
+            cout<<i<<endl;
+            return ;
+        }
+    }
+    
+    int c=h%x;
+    int a= h/x;
+    if(c>0)
+    {
+        a++;
+    }
+    a=a+5;
+    cout<<a<<endl;
+    return ;
+}
+
+int main() {
+	// your code goes here
+	int t;
+	cin>>t;
+	while (t--)
+	{
+	    s();
+	}
+	return 0;
+}
