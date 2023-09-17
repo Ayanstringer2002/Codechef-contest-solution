@@ -1,0 +1,557 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ll long long
+typedef pair<long long,int> plli;
+typedef pair<long long ,long long >pll;
+typedef pair<int,int>pii;
+typedef pair<int,pair<int,int>>pipii;
+typedef pair<pair<int,int>,int>ppiii;
+ll mod=1e9+7;
+ll mod1=998244353;
+#define pi 3.14159265358979323846
+#define vi vector<int>
+#define vpll vector<pll>
+#define vll vector<ll>
+#define vc vector<char>
+#define pb push_back
+#define ppb pop_back
+#define si set<ll>
+#define fi first
+#define se second
+#define f(i,n) for(ll i=0;i<n;i++)
+#define fn(i,n) for(ll i=n-1;i>=0;i--)
+#define f1(i,a,b) for(ll i=a;i<=b;i++)
+#define f1n(i,a,b) for(ll i=a;i>=b;i--)
+#define nl cout<<'\n';
+#define reverse(a) reverse(a.begin(),a.end())
+inline void print1(vll a){
+    ll n=a.size();
+    f1(i,1,n-1){
+        cout<<a[i]<<" ";
+    }
+    nl
+}
+inline ll maxi(vll a){
+    ll n=a.size();
+    ll maxn=INT_MIN;
+    f(i,n){
+        maxn=max(maxn,a[i]);
+    }
+    return maxn;
+}
+inline ll mini(vll a){
+    ll n=a.size();
+    ll minn=INT_MAX;
+    f(i,n){
+        minn=min(minn,a[i]);
+    }
+    return minn;
+}
+inline ll mini1(vll a){
+    ll n=a.size();
+    ll minn=INT_MAX;
+    f1(i,1,n-1){
+        minn=min(minn,a[i]);
+    }
+    return minn;
+}
+inline void debugn(vll a){
+    fn(i,(ll)a.size()){
+        cout<<a[i]<<" ";
+    }
+    nl
+}
+inline void debug(vector<pll> a){
+    for(ll i=0;i<(ll)a.size();i++){
+        cout<<a[i].fi<<" "<<a[i].se;
+        nl
+    }                   
+}
+inline void debug(vll a){
+    for(ll i=0;i<(ll)a.size();i++){
+        cout<<a[i]<<" ";
+    }                   
+    nl 
+} 
+inline void debug1(vll a){
+    for(ll i=0;i<(ll)a.size();i++){
+        cout<<a[i];
+    }                   
+    nl 
+} 
+inline void debug(vector<double> a){
+    for(ll i=0;i<(ll)a.size();i++){
+        cout<<a[i]<<" ";
+    }  
+    nl                  
+}
+inline void debug(vector<char> a){
+    for(ll i=0;i<(ll)a.size();i++){
+        cout<<a[i];
+    }  
+    nl                  
+} 
+
+inline void debug(vector<vll> a){
+    f(i,(ll)a.size()){
+        for(ll j=0;j<(ll)a[i].size();j++){
+            cout<<a[i][j]<<" ";
+        }                   
+        cout<<'\n';
+    }
+}
+inline void debug1(vector<vll> a){
+    ll n=a.size()-1,m=a[0].size()-1;
+    f1(i,1,n){
+        for(ll j=1;j<=m;j++){
+            cout<<a[i][j]<<" ";
+        }                   
+        cout<<'\n';
+    }
+}
+inline void debug(vector<vc> a){
+    f(i,(ll)a.size()){
+        for(ll j=0;j<(ll)a[i].size();j++){
+            cout<<a[i][j]<<" ";
+        }                   
+        cout<<endl;
+    }
+    nl
+}
+inline void debug(queue<ll>q){
+    while(!q.empty()){
+        cout<<q.front()<<" ";
+        q.pop();
+    }
+    nl
+}
+inline void debug(stack<ll>s){
+    while(!s.empty()){
+        cout<<s.top()<<" ";
+        s.pop();
+    }
+    nl
+}
+inline void debug(map<ll, ll>m){
+    for(auto &it:m){
+        cout<<it.fi<<","<<it.se<<" ";
+    }
+    nl
+}
+inline void sort(string &s){
+    sort(s.begin(),s.end());
+}
+inline  void sort( vll &a) {
+    sort(a.begin(),a.end());
+}
+inline  void sort( vector<double> &a) {
+    sort(a.begin(),a.end());
+}
+inline  void sort( vpll &a) {
+    sort(a.begin(),a.end());
+}
+inline void sortd( vll &a){
+    sort(a.begin(),a.end(),greater<ll>());
+}
+inline void sortd( vector<double> &a){
+    sort(a.begin(),a.end(),greater<double>());
+}
+inline void sortd( vpll &a){
+    sort(a.begin(),a.end(),greater<pll>());
+}
+bool isValid(ll i,ll j,ll n,ll m){
+    return (i>=1&&j>=1&&i<=n&&j<=m);
+}
+
+// for(int i=0;i<edges.size();i++){
+//     adj[edges[i][0]].push_back(edges[i][1]);        
+//     adj[edges[i][1]].push_back(edges[i][0]);                    
+// } 
+
+int gcd(ll a,ll b){
+    if(a==0)
+        return b;
+    if(b==0)
+        return a; 
+    return gcd(max(a,b)%min(a,b),min(a,b));
+}
+int lcm(ll a,ll b){
+    return a*b/gcd(a,b);
+}
+vll dectobin(ll n){
+    vll a;
+    while(n){
+        a.pb(n&1);
+        n/=2;
+    }
+    return a;
+}
+ll bintodec(vll a){
+    ll ans=0,n=a.size();
+    reverse(a);
+    f(i,n){
+        ans=ans*2+a[i];
+    }
+    return ans;
+}
+ll bintodec(string a){// a in format that i=0 is MSB  eg 1101 =13
+    ll ans=0,n=a.size();
+    f(i,n){
+        ans=ans*2+a[i]-'0';
+    }
+    return ans;
+}
+vll sieve(ll n){
+    bool prime[n + 1];
+    memset(prime, true, sizeof(prime));
+ 
+    for (ll p = 2; p * p <= n; p++) {
+        if (prime[p] == true) {
+            for (int i = p * p; i <= n; i += p)
+                prime[i] = false;
+        }
+    }
+ 
+    // Print all prime numbers
+    vll ans;
+    for (int p = 2; p <= n; p++)
+        if (prime[p])
+            ans.pb(p);
+    return ans;    
+}
+
+
+// stores smallest prime factor for every number
+// #define MAXN   100001 
+vll spf;
+ 
+// Calculating SPF (Smallest Prime Factor) for every
+// number till MAXN.
+// Time Complexity : O(nloglogn)
+void sieveSPF(ll MAXN)
+{
+    spf.resize(MAXN);
+    spf[1] = 1;
+    for (int i=2; i<MAXN; i++)
+ 
+        // marking smallest prime factor for every
+        // number to be itself.
+        spf[i] = i;
+ 
+    // separately marking spf for every even
+    // number as 2
+    for (int i=4; i<MAXN; i+=2)
+        spf[i] = 2;
+ 
+    for (int i=3; i*i<MAXN; i++)
+    {
+        // checking if i is prime
+        if (spf[i] == i)
+        {
+            // marking SPF for all numbers divisible by i
+            for (int j=i*i; j<MAXN; j+=i)
+ 
+                // marking spf[j] if it is not
+                // previously marked
+                if (spf[j]==j)
+                    spf[j] = i;
+        }
+    }
+}
+ 
+vll getprimeFact(ll x)
+{
+    vll ret;
+    while (x != 1)
+    {
+        ret.push_back(spf[x]);
+        x = x / spf[x];
+    }
+    return ret;
+}
+
+// finds factor of any number in o(1)with precomputations
+vector<vll>fact;
+void precompfact(ll n){
+    fact.resize(n+1);
+    f1(i,1,n){
+        for(ll j=i;j<=n;j+=i){
+            fact[j].pb(i);
+        }
+    }
+}
+vll getfact(ll x){
+    return fact[x];
+}
+// all factors including non prime
+vll getFactroot(ll n){
+    vll ans;
+    for (ll i=1; i<=sqrt(n); i++)
+    {
+        if (n%i == 0)
+        {
+            // If divisors are equal, print only one
+            if (n/i == i)
+                ans.pb(i);  
+            else{
+                ans.pb(i);
+                ans.pb(n/i);
+            } 
+        }
+    }
+    return ans;
+}
+
+int gcd(int a, int b,int &x, int &y){
+    if(b == 0){
+        x= 1; y = 0;
+        return a;
+    }
+    int x1, y1;
+    int d = gcd(b, a%b, x1, y1);
+    x = y1;
+    y = x1 - y1*(a/b);
+    return d;
+}
+
+//(a^n)%m in log(n)time unlike pow which takes o(n)
+long long power(ll a, ll N, ll M) { //mod 1e9+7 lena then this 
+    if (N == 0) {
+        return 1;
+    } else {
+        long long R = power(a, N / 2, M);
+        if (N % 2 == 0) {
+            return (R * R) % M;
+        } else {
+            return (((R * R)%M )* a) % M;
+        }
+    }
+}
+ll power(ll a, ll N) {
+    if (N == 0) {
+        return 1;
+    } else {
+        ll R = power(a, N / 2);
+        if (N % 2 == 0) {
+            return (R * R);
+        } else {
+            return (((R * R)) * a);
+        }
+    }
+}
+
+#define lli long long 
+
+// Returns (val1 * val2) % mod
+ll moduloMultiplication(ll val1, ll val2,ll mod)
+{
+
+    // Initialize the result
+    ll ans = 0;
+
+    // Update val1 if it is greater than or equal to mod
+    val1 %= mod;
+
+    while (val2) {
+
+        // If val2 is odd, add a with result
+        if (val2 & 1)
+            ans = (ans + val1) % mod;
+
+        // Here we assume that doing 2*val1 doesn't cause overflow
+        val1 = (2 * val1) % mod;
+        val2 = val2/2;
+    }
+    return ans;
+}
+
+// C++ function for extended Euclidean Algorithm
+lli gcdExtended(lli val1, lli val2,lli* xx,lli* yy);
+
+// this general method ..if prime mod direct formula lagao 
+//Function to find modulo inverse of val2 if inverse does not exist it returns -1
+lli modInverse(lli val2, lli mod)
+{
+    // used in extended GCD algorithm
+    lli xx, yy; 
+    lli g = gcdExtended(val2, mod, &xx, &yy);
+
+    // Return -1 if val2 and mod are not co-prime
+    if (g != 1)return -1;
+
+    // mod is added to handle negative xx
+    return (xx % mod + mod) % mod;
+}
+// Function for extended Euclidean Algorithm to find modular inverse.
+lli gcdExtended(lli val1, lli val2,lli* xx,lli* yy)
+{
+
+    // Base Case
+    if (val1 == 0) {
+        *xx = 0, *yy = 1;
+        return val2;
+    }
+
+    // To store results of recursive call
+    lli x1, y1;
+
+    lli gcd = gcdExtended(val2 % val1, val1, &x1, &y1);
+
+    // Update xx and yy using results of recursive call
+    *xx = y1 - (val2 / val1) * x1;
+    *yy = x1;
+    return gcd;
+}
+
+// Function to compute val1/val2 under modlo mod
+lli modDivide(lli val1, lli val2,lli mod)
+{
+
+    val1 = val1 % mod;
+    lli inv = modInverse(val2, mod);
+    if (inv == -1)
+        // Divison not defined
+        return 0;
+    else
+        return (inv * val1) % mod;
+}
+
+// Function to calculate nCr % p in o(n)
+int nCr(int n, int r, int x=mod)
+{
+
+    // Base case this case is not possible
+    if (r > n)
+        return 0;
+
+    // For larger r optimization need to be done
+    if (r > n - r)
+        r = n - r;
+
+    // ans stores the current result 
+    lli ans = 1;
+
+    for (int i = 1; i <= r; i++) {
+
+        /*
+             Derived formula for calculating the result is
+             C(n,r-1)*(n-r+1)/r
+             this Function calculates ans*(n-i+1) % x.
+        */
+
+        ans = moduloMultiplication(ans, (n + 1 - i), x);
+    
+        // Function calculates ans/i % x
+        ans = modDivide(ans, i, x);
+    }
+    return ans;
+}
+int factorial(ll n)
+{
+    if (n == 0 || n == 1)
+        return 1;
+    return n * factorial(n - 1);
+}
+int modFact(int n, int p)// factorial mod p
+{
+    if (n >= p)
+        return 0;
+ 
+    int result = 1;
+    for (int i = 1; i <= n; i++)
+        result = (result * i) % p;
+ 
+    return result;
+}
+void DFS(ll node,vll &v,vector<vll>&adj){
+    v[node]=1;
+    for(auto &it:adj[node]){
+        if(v[it]==0){
+            v[it]=1;
+            DFS(it,v,adj);
+        }
+    }
+}
+ll ceil1(ll a, ll b) {
+    if (a == 0) return 0;
+    return (a - 1)/b + 1;
+}
+void rotateMatrix(vector<vll> &mat)//90degree rotate AC
+{ // REVERSE every row
+    ll N=mat[0].size();
+    for (int i = 0; i < N; i++)
+        reverse(mat[i]);
+ 
+    // Performing Transpose
+    for (int i = 0; i < N; i++) {
+        for (int j = i; j < N; j++)
+            swap(mat[i][j], mat[j][i]);
+    }
+}
+
+vector<ll>facto;
+void precompfactorial(ll n,ll x=mod){
+    facto.resize(n+1);
+    for(int i=0;i<n;i++){
+        if(i==0){
+            facto[i]=1;
+        }
+        else
+            facto[i]=(facto[i-1]*i)%(x);
+    }
+}
+// #define fact factorials
+//o(logn) only for p=mod or other prime number
+long long nCr1(long long n, long long r, long long p) {
+    // Precompute the factorials of numbers from 1 to n.
+    // Calculate the inverse of r! and (n - r)! modulo p.
+    long long r_inv = power(facto[r], p - 2, p);
+    long long pinv = power(facto[n - r], p - 2, p);
+
+    // Calculate nCr modulo p.
+    return (facto[n] *( (r_inv * pinv)%p)) % p;
+}
+ll n,m;
+ll solve1(ll i,ll j,vll &a,vll &b,vector<vll>&dp){
+    if(i>n||j>m){
+        return 0;
+    }   
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    ll ans=0; 
+    if(a[i]==b[j]){
+        ans=solve1(i+1,j+1,a,b,dp)+1;
+    }
+    else{
+        ans=max(ans,solve1(i+1,j,a,b,dp));
+        ans=max(ans,solve1(i,j+1,a,b,dp));
+    }
+    return dp[i][j]=ans;
+}
+void solve(){
+    cin>>n>>m;
+    vll a(n+1),b(m+1);
+    f1(i,1,n){
+        cin>>a[i];
+    }
+    f1(i,1,m){
+        cin>>b[i];
+    }
+    vector<vll>dp(n+1,vll(m+1,-1));
+    ll ans=solve1(1,1,a,b,dp);
+    cout<<ans<<endl;
+}   
+signed main()                                                    
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int t;
+    cin>>t;
+    while(t--) {
+        solve();
+    }
+    return 0;
+}
