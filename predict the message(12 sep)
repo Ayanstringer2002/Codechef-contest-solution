@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    int T;
+    cin >> T;
+
+    while (T--) {
+        int N, K, i;
+        cin >> N >> K ;
+        cin>>i;
+
+        string message(N, 'A');
+        for (int minute = 1; minute <= i; minute++) {
+            message[N - 1]++; 
+
+
+            for (int j = N - 1; j >= 0; j--) {
+                if (message[j] > 'A' + K - 1) {
+                    message[j] = 'A';
+                    if (j > 0) {
+                        message[j - 1]++;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+
+        cout << message << endl;
+    }
+
+    return 0;
+}
