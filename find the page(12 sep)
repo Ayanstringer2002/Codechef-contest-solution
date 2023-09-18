@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+#define ll long long int
+using namespace std;
+void setIO() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+}
+int main() {
+    setIO();
+	int t;
+	cin >> t;
+	while(t--) {
+	    string s;
+	    cin >> s;
+	    string k = s;
+	    sort(s.begin(),s.end());
+        int i = 0;
+    do {
+        i++;
+        if(s == k) break;
+    } while (next_permutation(s.begin(), s.end()));
+    cout << i << '\n';
+	}
+	return 0;
+}
