@@ -1,0 +1,95 @@
+#include <bits/stdc++.h>
+#ifdef LOCAL
+#include <debug.hpp>
+#else
+#define debug(...) void(0)
+#endif
+
+using namespace std;
+
+typedef long long ll;
+#define all(x) begin(x), end(x)
+constexpr int INF = (1 << 30) - 1;
+constexpr long long IINF = (1LL << 60) - 1;
+constexpr int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+
+template <class T> istream& operator>>(istream& is, vector<T>& v) {
+    for (auto& x : v) is >> x;
+    return is;
+}
+
+template <class T> ostream& operator<<(ostream& os, const vector<T>& v) {
+    auto sep = "";
+    for (const auto& x : v) os << exchange(sep, " ") << x;
+    return os;
+}
+
+template <class T, class U = T> bool chmin(T& x, U&& y) { return y < x and (x = forward<U>(y), true); }
+
+template <class T, class U = T> bool chmax(T& x, U&& y) { return x < y and (x = forward<U>(y), true); }
+
+template <class T> void mkuni(vector<T>& v) {
+    sort(begin(v), end(v));
+    v.erase(unique(begin(v), end(v)), end(v));
+}
+
+template <class T> int lwb(const vector<T>& v, const T& x) { return lower_bound(begin(v), end(v), x) - begin(v); }
+
+void solve() {
+    int N, K;
+    string S;
+    cin >> N >> K >> S;
+
+    if (is_sorted(all(S))) {
+        cout << 0 << '\n';
+        return;
+    }
+    vector<pair<int, int>> v;
+    for (int i = 0; i < N; i++) v.emplace_back(S[i], i);
+    sort(all(v));
+    vector<int> a(N);
+    for (int i = 0; i < N; i++) a[v[i].second] = i;
+    debug(a);
+
+    int c = (N - 1) / 2;
+    vector<pair<int, int>> ans;
+    vector<int> na, pos(N);
+    for (int i = 0; i < N; i++) pos[a[i]] = i;
+    auto op = [&](int x, int y) {
+        assert(x > 0 or y > 0);
+        if (x == 0) x = N - y;
+        if (y == 0) y = N - x;
+        assert(x > 0);
+        assert(y > 0);
+        assert(x + y <= N);
+        ans.emplace_back(x, y);
+        int z = N - x - y;
+        for (int i = 0; i < y; i++) na.emplace_back(a[x + z + i]);
+        for (int i = 0; i < z; i++) na.emplace_back(a[x + i]);
+        for (int i = 0; i < x; i++) na.emplace_back(a[i]);
+        swap(a, na);
+        na.clear();
+        for (int i = 0; i < N; i++) pos[a[i]] = i;
+        debug(x, y, a);
+    };
+    if (pos[c] != N - 1) op(pos[c] + 1, N - (pos[c] + 1));
+    for (int r = c + 1, l = c - 1, len = 1; r < N; r++, l--) {
+        op(pos[r], len);
+        len++;
+        if (l < 0) break;
+        op(len, N - pos[l] - 1);
+        len++;
+    }
+    assert(is_sorted(all(a)));
+    cout << ans.size() << '\n';
+    for (auto [x, y] : ans) cout << x << ' ' << y << '\n';
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int T;
+    cin >> T;
+    for (; T--;) solve();
+    return 0;
+}
