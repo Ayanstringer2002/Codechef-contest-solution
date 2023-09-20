@@ -1,0 +1,100 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define endl '\n'   
+#define F first
+#define S second
+#define yes cout<<'Y'<<'E'<<'S'<<endl
+#define no cout<<'N'<<'O'<<endl
+#define dbg(x) cout << #x<<' '<< x << endl ;
+#define int long long
+#define vpii vector< pair< int, int> >
+#define mpr make_pair
+#define pii pair<int,int>
+#define ust unordered_set
+#define ump unordered_map
+#define pbk                    push_back
+#define vi                    vector<int>
+#define vvi                   vector<vector<int>>
+#define all(a)                a.begin(), a.end()
+#define MAX(x) *max_element(all(x))
+#define MIN(x) *min_element(all(x))
+#define SUM(x) accumulate(all(x), 0LL)
+#define FIND(x, y) binary_search(all(x), y)
+#define lb lower_bound
+#define ub upper_bound
+#define mpii map<int ,int>
+#define umpii unordered_map<int ,int>
+#define rd(n) int n;cin>>n;
+#define vti(a,n) vi a(n);for(int i=0;i<n;i++)cin>>a[i];
+const int N = 1e5+10;
+//fl-for loop
+//ffl-double for loop
+//lc-lower case,uc-upper case
+//tc-test case
+//pf-prime function O(sqrt(n)
+//bns-binary search
+//sv-sieve
+//sqb-square root using binary search
+//sbc sort by condition
+//cl ceiling
+bool prime(int n)
+{
+if (n <= 1)
+return false;
+for (int i = 2; i <= sqrt(n); i++)
+ if (n % i == 0)
+ return false;
+ return true;
+}
+
+void rky_cse();void testcases(){int TC=1;   cin>>TC;
+while(TC--){rky_cse();}}
+void rky_cse(){
+
+int n;cin>>n;
+if(n<4){
+	cout<<-1<<endl;return;
+}
+string five="4 5 1 2 3 ";
+string six="4 5 6 1 2 3 ";
+string seven="3 4 5 6 7 1 2 ";
+if(n%4==0){
+	for(int i=4 ;i<=n;i+=4){
+cout<<i-1<<' '<<i<<' '<<i-3<<' '<<i-2<<' ';
+	}
+	cout<<endl;return;
+
+}
+if(n%4==1){
+cout<<five;
+	for(int i=9 ;i<=n;i+=4){
+cout<<i-1<<' '<<i<<' '<<i-3<<' '<<i-2<<' ';
+	}
+	cout<<endl;return;
+
+}
+if(n%4==2){
+	cout<<six;
+	for(int i=10;i<=n;i+=4){
+cout<<i-1<<' '<<i<<' '<<i-3<<' '<<i-2<<' ';
+	}
+	cout<<endl;return;
+}
+if(n%4==3){
+	cout<<seven;
+	for(int i=11;i<=n;i+=4){
+cout<<i-1<<' '<<i<<' '<<i-3<<' '<<i-2<<' ';
+	}
+	cout<<endl;return;
+}
+
+
+
+
+}
+int32_t main() {
+ios_base::sync_with_stdio(false);
+cin.tie(NULL); // Remove in interactive problems
+
+
+testcases();return 0;}
