@@ -1,0 +1,130 @@
+#include <vector>
+#include <queue>
+#include <deque>
+#include <set>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <cmath>
+#include <stack>
+#include <climits>
+#include <iomanip>
+
+using ll = long long;
+
+constexpr ll mod = 998244353;
+constexpr ll maxn = 100000;
+
+ll inv(long long i){
+    return i <= 1 ? i : mod - (mod / i) * inv(mod % i) % mod;
+}
+
+void solve(){
+    int n, q;
+    std::cin >> n >> q;
+
+    struct Snake{
+        int i;
+        int j;
+        char dir;
+    };
+
+    std::vector<std::string> grid(n);
+    std::vector<Snake> snakes;
+    std::vector<std::vector<bool>> occupied(n, std::vector<bool>(n));
+    for (int i=0;i<n;i++){
+        std::cin >> grid[i];
+        for (int j=0;j<n;j++){
+            if (grid[i][j] != '.')
+                snakes.push_back({i, j, grid[i][j]}), occupied[i][j] = true;
+        }
+    }
+
+    // a snake takes max n secs to finish filling 
+    // all its cells
+    std::vector<int> danger(n + 1);
+    std::vector<std::vector<bool>> visited(n, std::vector<bool>(n));
+    std::vector<std::vector<int>> d(n, std::vector<int>(n));
+    std::deque<std::pair<int, int>> s;
+    std::vector<int> dx = {-1, 1, 0, 0};
+    std::vector<int> dy = {0, 0, -1, 1};
+
+    for (int i=1;i<=n;i++){
+        // 0-1 BFS
+        s.push_back({0, 0});
+        d[0][0] = occupied[0][0];
+        visited[0][0] = true;
+
+        while (!s.empty()){
+            auto [i, j] = s.front();
+            s.pop_front();
+
+            for (int k=0;k<4;k++){
+                int x = dx[k] + i;
+                int y = dy[k] + j;
+                if (x >= 0 && y >= 0 && x < n && y < n && !visited[x][y]){
+                    visited[x][y] = true;
+                    d[x][y] = occupied[x][y] + d[i][j];
+                    if (occupied[x][y])
+                        s.push_back({x, y});
+                    else 
+                        s.push_front({x, y});
+                }
+            }
+        }
+
+        // std::cout << "Occupied\n";
+        // for (const auto& v : occupied){
+        //     for (bool x : v)
+        //         std::cout << x << ' ';
+        //     std::cout << '\n';
+        // }
+        // std::cout << "D\n";
+        // for (const auto& v : d){
+        //     for (auto x : v)
+        //         std::cout << x << ' ';
+        //     std::cout << '\n';
+        // }
+        danger[i] = d[n - 1][n - 1];
+        for (auto& [i, j, dir] : snakes){
+            if (dir == 'L' && j)
+                j--, occupied[i][j] = true;
+            if (dir == 'R' && j + 1 < n)
+                j++, occupied[i][j] = true;
+            if (dir == 'U' && i)
+                i--, occupied[i][j] = true;
+            if (dir == 'D' && i + 1 < n)
+                i++, occupied[i][j] = true;
+        }
+
+        visited.assign(n, std::vector<bool>(n));
+    }
+
+    while (q--){
+        int t;
+        std::cin >> t;
+        std::cout << danger[std::min(n, t)] << ' ';
+    }
+    std::cout << '\n';
+}
+
+int main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
+    int t = 1;
+    // std::cin >> t;
+    while (t--){
+        solve();
+    }
+
+    return 0;
+}
+
+/*
+
+*/
