@@ -1,0 +1,85 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define int long long int
+#define endl "\n"
+#define cout std::cout
+#define cin std::cin
+int mod = 1e9 + 7;
+
+int power(int a, int b)
+{
+  int ans = 1;
+  while (b > 0)
+  {
+    if (b & 1)
+    {
+      ans = (ans * a) % mod;
+    }
+    a = (a * a) % mod;
+    b >>= 1;
+  }
+  return ans;
+}
+long long addm(long long a, long long b)
+{
+  a = a % mod;
+  b = b % mod;
+  return (((a + b) % mod) + mod) % mod;
+}
+long long subm(long long a, long long b)
+{
+  a = a % mod;
+  b = b % mod;
+  return (((a - b) % mod) + mod) % mod;
+}
+long long mulm(long long a, long long b)
+{
+  a = a % mod;
+  b = b % mod;
+  return (((a * b) % mod) + mod) % mod;
+}
+long long inv(long long x) { return power(x, mod - 2); } // x^-1
+long long divm(long long a, long long b) { return mulm(a, inv(b)); }
+// (a/b)%p=[(a%p)*(b^-1%p)]%p  or (a/b)%p=[(a%p)*((b^p-2)%p)]%p
+
+// pbds---> new_data_set st;
+// find_by_order(x) -> returns iterator pointing to the xth element
+// order_of_key(x) -> returns number of elements in the set which are strictly less than x
+void solve()
+{
+  int n, l, r;
+  cin >> n >> l >> r;
+  int inv2 = 500000004;
+  int inv4 = 250000002;
+  function<int(int, int, int)> sum = [&](int x, int cnt, int total) -> int
+  {
+    if (x == 0)
+      return 0;
+    if (x == cnt)
+      return total;
+    cnt /= 2;
+    int left = subm(mulm(total, inv2), mulm(n, inv4));
+    int right = addm(mulm(total, inv2), mulm(n, inv4));
+    if (x < cnt)
+      return sum(x, cnt, left);
+    return addm(left, sum(x - cnt, cnt, right));
+  };
+  int total = mulm(mulm(n, n + 1), inv2);
+  cout << subm(sum(r, n, total), sum(l - 1, n, total)) << endl;
+}
+int32_t main()
+{
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+  int t = 1;
+  cin >> t;
+  while (t--)
+  {
+    solve();
+  }
+
+  return 0;
+}
